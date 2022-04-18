@@ -61,7 +61,10 @@ class Frame(wx.Frame):
       # 弹框询问
       dlg = wx.MessageDialog(self, '是否覆盖原有备注', '提示', wx.YES_NO | wx.ICON_INFORMATION)
       if dlg.ShowModal() == wx.ID_YES:
-        print('覆盖')
+        # 先删除文件
+        os.system('attrib '+dirPath+'/desktop.ini -r -h')
+        time.sleep(0.05)
+        os.remove(dirPath+'/desktop.ini')
         file = open(dirPath+'/desktop.ini', 'w')
         file.close()
       else:
@@ -94,9 +97,13 @@ class Frame(wx.Frame):
     # 关闭文件
     file.close()
 
-    # 执行cmd命令
+    # 设置权限 
+    os.system('attrib '+dirPath+'/desktop.ini +r +h')
+    time.sleep(0.05)
+    # 刷新
     os.system('attrib '+dirPath+' +s /d')
-    time.sleep(1)
+    time.sleep(0.05)
+    
     dlg = wx.MessageDialog(self, '备注设置完成，退出本程序后生效', '提示', wx.OK | wx.ICON_INFORMATION)
     dlg.ShowModal()
     dlg.Destroy()
@@ -128,6 +135,10 @@ def age_c():
     isDel = input()
     # 不区分大小写判断
     if isDel.upper() == 'Y':
+      # 先删除文件
+      os.system('attrib '+dirPath+'/desktop.ini -r -h')
+      time.sleep(0.05)
+      os.remove(dirPath+'/desktop.ini')
       file = open(dirPath+'/desktop.ini', 'w')
       file.close()
     else:
@@ -162,9 +173,12 @@ def age_c():
   # 关闭文件
   file.close()
 
-  # 执行cmd命令
+  # 设置权限
+  os.system('attrib '+dirPath+'/desktop.ini +r +h')
+  time.sleep(0.05)
+  # 刷新
   os.system('attrib '+dirPath+' +s /d')
-  time.sleep(1)
+  time.sleep(0.05)
 
 def age_u():
   print('GUI模式')
